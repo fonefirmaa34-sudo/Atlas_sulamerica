@@ -58,6 +58,27 @@ select.speed{font:13px var(--f-body);padding:5px 6px;border-radius:7px;border:1p
 input[type=range]{width:100%;margin:2px 0 0;accent-color:var(--accent);height:24px}
 .scale{display:flex;justify-content:space-between;font:11px var(--f-mono);color:var(--muted)}
 
+/* Pesquisa */
+.search{position:relative;display:flex;align-items:center;gap:8px}
+.search-box{position:relative;flex:1;min-width:0;max-width:560px}
+.search-box svg{position:absolute;left:9px;top:50%;transform:translateY(-50%);width:15px;height:15px;color:var(--muted);pointer-events:none}
+.search input{width:100%;font:14px var(--f-body);padding:6px 30px 6px 31px;min-height:34px;border:1px solid var(--line);border-radius:7px;background:var(--bg);color:var(--ink)}
+.search input::-webkit-search-cancel-button{display:none}
+.search .clr{position:absolute;right:4px;top:50%;transform:translateY(-50%);border:0;background:none;color:var(--muted);font-size:17px;line-height:1;cursor:pointer;padding:4px 7px;border-radius:5px}
+.search .clr:hover{color:var(--ink);background:var(--chip)}
+.search-hint{color:var(--muted);font-size:12px}
+.results{position:absolute;left:0;right:0;top:calc(100% + 4px);background:var(--panel);border:1px solid var(--line);border-radius:9px;box-shadow:0 10px 30px rgba(0,0,0,.18);list-style:none;margin:0;padding:4px;max-height:min(360px,60vh);overflow:auto;z-index:20}
+.results li{display:grid;grid-template-columns:48px 1fr;gap:2px 10px;padding:7px 8px;border-radius:6px;cursor:pointer;font-size:13px;line-height:1.4}
+.results li .y{font:500 12.5px var(--f-mono);color:var(--accent);font-variant-numeric:tabular-nums;padding-top:1px}
+.results li small{grid-column:2;color:var(--muted);font-size:11.5px}
+.results li.act,.results li:hover{background:var(--chip)}
+.results li.empty{display:block;color:var(--muted);cursor:default}
+.results li.empty:hover{background:none}
+.results mark{background:color-mix(in srgb,var(--accent) 28%,transparent);color:inherit;border-radius:2px;padding:0 1px}
+.ev.flash{animation:evflash 1.6s ease}
+@keyframes evflash{0%,40%{background:color-mix(in srgb,var(--accent) 30%,transparent)}100%{background:var(--chip)}}
+@media (max-width:900px){.search-hint{display:none}}
+
 /* Corpo */
 .main{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(320px,1fr);gap:14px;align-items:start}
 .mapcard{background:var(--sea);border:1px solid var(--line);border-radius:10px;position:relative;overflow:hidden}
@@ -141,6 +162,15 @@ h3.sub span{font:500 12px var(--f-mono);color:var(--muted)}
       <label class="tog"><input type="checkbox" id="tgModern"> Fronteiras atuais</label>
       <label class="tog"><input type="checkbox" id="tgCities" checked> Cidades</label>
       <label class="tog"><input type="checkbox" id="tgLabels" checked> Nomes</label>
+    </div>
+    <div class="search" role="search">
+      <div class="search-box">
+        <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="8.5" cy="8.5" r="5.5"/><path d="M13 13l4.5 4.5" stroke-linecap="round"/></svg>
+        <input type="search" id="q" autocomplete="off" spellcheck="false" placeholder="Pesquisar ano ou fato histórico (ex.: 1822, Malvinas, independência)" aria-label="Pesquisar ano ou fato histórico" role="combobox" aria-expanded="false" aria-controls="results" aria-autocomplete="list">
+        <button type="button" class="clr" id="qClear" aria-label="Limpar pesquisa" hidden>×</button>
+        <ul class="results" id="results" role="listbox" hidden></ul>
+      </div>
+      <span class="search-hint">Enter abre o primeiro resultado</span>
     </div>
     <div class="track">
       <div class="eras" id="eras"></div>
@@ -599,6 +629,73 @@ $('play').onclick=()=>timer?stop():play();
 $('speed').onchange=()=>{if(timer){stop();play()}};
 document.addEventListener('keydown',e=>{if(e.target.tagName==='INPUT'&&e.target.type!=='range'&&e.target.type!=='checkbox')return;if(e.target.type==='range')return;
   if(e.key==='ArrowRight'){setYear(year+(e.shiftKey?10:1));e.preventDefault()}else if(e.key==='ArrowLeft'){setYear(year-(e.shiftKey?10:1));e.preventDefault()}});
+// ---- Pesquisa ----
+const norm=s=>s.normalize('NFD').replace(/[̀-ͯ]/g,'').toLowerCase();
+const esc=s=>s.replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const IDX=[];
+ERAS.forEach(e=>{
+  IDX.push({y:e.s,t:e.t,k:'Período '+e.s+'–'+e.e,era:true});
+  e.ev.forEach(([y,t])=>IDX.push({y,t,k:'Fato histórico · '+e.t}));
+});
+{const first={};for(let y=Y0;y<=Y1;y++)OWN[y].forEach(o=>{if(!(o in first))first[o]=y});
+ for(const o in first){const y=first[o];IDX.push({y,t:nameOf(o,y),k:'Aparece no mapa · '+TYPELBL[ENT[o].t]});
+   const e=ENT[o];if(e.names)e.names.forEach(([s,n])=>{if(s>y&&s<=Y1&&n!==nameOf(o,y))IDX.push({y:s,t:n,k:'Novo nome no mapa'})})}}
+IDX.forEach(r=>{r.n=norm(r.t);r.nk=norm(r.k)});
+const qEl=$('q'),resEl=$('results'),qClr=$('qClear');
+let hits=[],act=0;
+function mark(t,terms){const n=norm(t);if(n.length!==t.length)return esc(t);
+  const on=new Array(t.length).fill(false);
+  terms.forEach(w=>{if(!w)return;let i=n.indexOf(w);while(i>=0){for(let j=i;j<i+w.length;j++)on[j]=true;i=n.indexOf(w,i+w.length)}});
+  let out='',open=false;for(let i=0;i<t.length;i++){if(on[i]&&!open){out+='<mark>';open=true}if(!on[i]&&open){out+='</mark>';open=false}out+=esc(t[i])}
+  return out+(open?'</mark>':'')}
+function search(q){
+  const nq=norm(q.trim());if(!nq)return[];
+  const terms=nq.split(/\s+/).filter(Boolean);
+  const nums=terms.filter(w=>/^\d{3,4}$/.test(w)).map(Number);
+  const words=terms.filter(w=>!/^\d{3,4}$/.test(w));
+  let out=[];
+  IDX.forEach(r=>{
+    if(nums.length&&!nums.every(n=>r.y===n||r.n.includes(String(n))))return;
+    if(!words.every(w=>r.n.includes(w)||r.nk.includes(w)))return;
+    let sc=0;words.forEach(w=>{if(r.n.includes(w))sc+=2;if(new RegExp('(^|[^a-z])'+w.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')).test(r.n))sc+=1});
+    if(nums.includes(r.y))sc+=3;
+    out.push({...r,sc});
+  });
+  out.sort((a,b)=>b.sc-a.sc||a.y-b.y);
+  if(nums.length===1&&!words.length){const y=nums[0];
+    if(y>=Y0&&y<=Y1)out.unshift({y,t:'Ir para o ano '+y,k:eraOf(y).t,go:true});
+    else out=[{y:Math.max(Y0,Math.min(Y1,y)),t:'Ir para '+Math.max(Y0,Math.min(Y1,y)),k:'O mapa cobre de '+Y0+' a '+Y1,go:true}];}
+  return {list:out.slice(0,40),terms};
+}
+function draw(){
+  const r=search(qEl.value);qClr.hidden=!qEl.value;
+  if(!qEl.value.trim()){resEl.hidden=true;qEl.setAttribute('aria-expanded','false');hits=[];return}
+  hits=r.list||[];act=0;
+  resEl.innerHTML=hits.length?hits.map((h,i)=>`<li role="option" id="res${i}" data-i="${i}"${i===0?' class="act" aria-selected="true"':''}><span class="y">${h.y}</span><span>${h.go?esc(h.t):mark(h.t,r.terms)}</span><small>${esc(h.k)}</small></li>`).join('')
+    :'<li class="empty">Nenhum resultado. Tente um ano entre 1493 e 2026 ou outra palavra.</li>';
+  resEl.hidden=false;qEl.setAttribute('aria-expanded','true');
+}
+function setAct(i){if(!hits.length)return;act=(i+hits.length)%hits.length;
+  resEl.querySelectorAll('li').forEach((li,j)=>{li.classList.toggle('act',j===act);li.setAttribute('aria-selected',j===act)});
+  const li=resEl.children[act];li&&li.scrollIntoView({block:'nearest'});qEl.setAttribute('aria-activedescendant','res'+act)}
+function choose(i){const h=hits[i];if(!h)return;stop();setYear(h.y);
+  resEl.hidden=true;qEl.setAttribute('aria-expanded','false');qEl.blur();
+  const evs=$('events');const li=[...evs.children].find(l=>l.textContent.slice(String(h.y).length)===h.t)||evs.querySelector('.ev.now');
+  if(li){evs.scrollTop+=li.getBoundingClientRect().top-evs.getBoundingClientRect().top-6;li.classList.remove('flash');void li.offsetWidth;li.classList.add('flash')}
+  if(window.innerWidth<=900)$('mapcard').scrollIntoView({behavior:'smooth',block:'start'});
+}
+qEl.addEventListener('input',draw);
+qEl.addEventListener('focus',()=>{if(qEl.value.trim())draw()});
+qEl.addEventListener('keydown',e=>{
+  if(e.key==='ArrowDown'){setAct(act+1);e.preventDefault()}
+  else if(e.key==='ArrowUp'){setAct(act-1);e.preventDefault()}
+  else if(e.key==='Enter'){if(resEl.hidden)draw();choose(act);e.preventDefault()}
+  else if(e.key==='Escape'){if(!resEl.hidden){resEl.hidden=true;qEl.setAttribute('aria-expanded','false')}else{qEl.value='';draw()}}});
+resEl.addEventListener('mousedown',e=>e.preventDefault());
+resEl.addEventListener('click',e=>{const li=e.target.closest('li[data-i]');if(li)choose(+li.dataset.i)});
+qClr.onclick=()=>{qEl.value='';draw();qEl.focus()};
+document.addEventListener('click',e=>{if(!e.target.closest('.search')){resEl.hidden=true;qEl.setAttribute('aria-expanded','false')}});
+document.addEventListener('keydown',e=>{if(e.key==='/'&&document.activeElement!==qEl&&!/INPUT|SELECT|TEXTAREA/.test(document.activeElement.tagName)){qEl.focus();e.preventDefault()}});
 let start=Y0;try{const s=+localStorage.getItem('atlas-ano');if(s>=Y0&&s<=Y1)start=s}catch(e){}
 setYear(start);
 })();
