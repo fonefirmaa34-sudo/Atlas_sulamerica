@@ -140,9 +140,9 @@ h3.sub span{font:500 12px var(--f-mono);color:var(--muted)}
   <header class="top">
     <div>
       <h1>Atlas Histórico da América do Sul</h1>
-      <p>Arraste a régua do tempo para ver como impérios, reinos, colônias e repúblicas dividiram o continente entre 1493 e 2026.</p>
+      <p>Arraste a régua do tempo para ver como impérios, reinos, colônias e repúblicas dividiram o continente entre 1492 e 2026.</p>
     </div>
-    <div class="yearbig" id="yearBig" aria-live="polite">1493</div>
+    <div class="yearbig" id="yearBig" aria-live="polite">1492</div>
   </header>
 
   <section class="timebar" aria-label="Linha do tempo">
@@ -152,7 +152,7 @@ h3.sub span{font:500 12px var(--f-mono);color:var(--muted)}
       <button class="btn" id="fwd" type="button" title="Próximo ano (seta direita)">1 ▶</button>
       <button class="btn" id="prevEv" type="button" title="Mudança anterior no mapa">⏮ Mudança</button>
       <button class="btn" id="nextEv" type="button" title="Próxima mudança no mapa">Mudança ⏭</button>
-      <input class="yearbox" id="yearInput" type="number" min="1493" max="2026" value="1493" aria-label="Ano">
+      <input class="yearbox" id="yearInput" type="number" min="1492" max="2026" value="1492" aria-label="Ano">
       <select class="speed" id="speed" aria-label="Velocidade">
         <option value="400">Lento</option>
         <option value="160" selected>Normal</option>
@@ -175,8 +175,8 @@ h3.sub span{font:500 12px var(--f-mono);color:var(--muted)}
     <div class="track">
       <div class="eras" id="eras"></div>
       <div class="ticks" id="ticks"></div>
-      <input type="range" id="slider" min="1493" max="2026" step="1" value="1493" aria-label="Ano no mapa">
-      <div class="scale"><span>1493</span><span>1600</span><span>1700</span><span>1800</span><span>1900</span><span>2026</span></div>
+      <input type="range" id="slider" min="1492" max="2026" step="1" value="1492" aria-label="Ano no mapa">
+      <div class="scale"><span>1492</span><span>1600</span><span>1700</span><span>1800</span><span>1900</span><span>2026</span></div>
     </div>
   </section>
 
@@ -202,7 +202,7 @@ h3.sub span{font:500 12px var(--f-mono);color:var(--muted)}
       </section>
 
       <section class="card">
-        <p class="eyebrow">Legenda — <span id="lgYear">1493</span></p>
+        <p class="eyebrow">Legenda — <span id="lgYear">1492</span></p>
         <div class="legend" id="legend"></div>
       </section>
     </div>
@@ -232,9 +232,9 @@ const ENT = {
   ptcol:    {c:'#4f9a5b', t:'colonia', s:'Brasil (Portugal)', n:'Colônia portuguesa', d:'Domínio da Coroa portuguesa: capitanias hereditárias (1534), Governo-Geral (1549) e, a partir de 1763, Vice-Reino com capital no Rio de Janeiro.'},
   uib:      {c:'#86a967', t:'colonia', s:'Brasil (União Ibérica)', n:'Brasil sob a União Ibérica', d:'Entre 1580 e 1640, os reis da Espanha também foram reis de Portugal. O Brasil seguiu com administração portuguesa, mas a fronteira de Tordesilhas perdeu importância prática.'},
   nholanda: {c:'#ee8a26', t:'colonia', s:'Nova Holanda', n:'Nova Holanda – Brasil Holandês', d:'Colônia da Companhia das Índias Ocidentais (WIC) no Nordeste açucareiro, com capital em Recife (Mauritsstad). Governada por Maurício de Nassau entre 1637 e 1644.'},
-  nl:       {c:'#f2a641', t:'colonia', s:'Holanda', names:[[1493,'Colônia holandesa'],[1954,'Suriname – Reino dos Países Baixos']], d:'Colônias dos Países Baixos nas Guianas, baseadas em plantações de açúcar trabalhadas por africanos escravizados. Em 1954 o Suriname tornou-se país autônomo dentro do Reino.'},
-  uk:       {c:'#d2507f', t:'colonia', s:'Brit.', names:[[1493,'Colônia inglesa'],[1707,'Colônia britânica'],[2002,'Território Britânico Ultramarino']], d:'Possessões da Inglaterra (depois Reino Unido): Willoughbyland no Suriname (1650–1667), Guiana Britânica (1796/1814–1966) e as Ilhas Malvinas/Falkland (desde 1833).'},
-  fr:       {c:'#4a74c4', t:'colonia', s:'França', names:[[1493,'Guiana Francesa – colônia da França'],[1946,'Guiana Francesa – departamento da França']], d:'Colônia francesa com capital em Caiena, usada também como colônia penal (Ilha do Diabo, 1852–1953). Desde 1946 é um departamento ultramarino, parte integral da França e da União Europeia.'},
+  nl:       {c:'#f2a641', t:'colonia', s:'Holanda', names:[[1492,'Colônia holandesa'],[1954,'Suriname – Reino dos Países Baixos']], d:'Colônias dos Países Baixos nas Guianas, baseadas em plantações de açúcar trabalhadas por africanos escravizados. Em 1954 o Suriname tornou-se país autônomo dentro do Reino.'},
+  uk:       {c:'#d2507f', t:'colonia', s:'Brit.', names:[[1492,'Colônia inglesa'],[1707,'Colônia britânica'],[2002,'Território Britânico Ultramarino']], d:'Possessões da Inglaterra (depois Reino Unido): Willoughbyland no Suriname (1650–1667), Guiana Britânica (1796/1814–1966) e as Ilhas Malvinas/Falkland (desde 1833).'},
+  fr:       {c:'#4a74c4', t:'colonia', s:'França', names:[[1492,'Guiana Francesa – colônia da França'],[1946,'Guiana Francesa – departamento da França']], d:'Colônia francesa com capital em Caiena, usada também como colônia penal (Ilha do Diabo, 1852–1953). Desde 1946 é um departamento ultramarino, parte integral da França e da União Europeia.'},
   canal:    {c:'#3f5b8c', t:'colonia', s:'Zona do Canal', n:'Zona do Canal do Panamá (EUA)', d:'Faixa de cerca de 16 km de largura ao redor do canal, controlada pelos Estados Unidos de 1904 a 1979. O canal em si foi transferido ao Panamá em 31/12/1999.'},
   rup:      {c:'#2f8a78', t:'reino', s:'Reino Unido', n:'Reino Unido de Portugal, Brasil e Algarves', d:'Em 1815 o Brasil deixou de ser colônia e foi elevado a reino, com a corte de D. João VI instalada no Rio de Janeiro.'},
   imp:      {c:'#1f6b3d', t:'imperio', s:'Império do Brasil', n:'Império do Brasil', d:'Monarquia constitucional criada com a independência de 1822, governada por D. Pedro I e D. Pedro II até a Proclamação da República em 1889.'},
@@ -283,47 +283,47 @@ const ARGEN = [[1553,'vperu'],[1776,'vrdlp'],[1810,'pu'],[1831,'confarg'],[1861,
 const BRASIL = [[1815,'rup'],[1822,'imp'],[1889,'brrep']];
 
 const REG = {
-  COL_muisca: {n:'Altiplano de Bogotá', h:[[1493,'muisca'],[1537,'castela'],...NGRAN]},
-  COL_pasto:  {n:'Pasto (sul da Colômbia)', h:[[1493,'inca'],[1533,'ind'],[1537,'castela'],...NGRAN]},
-  COL_rest:   {n:'Colômbia', h:[[1493,'ind'],[1525,'castela'],...NGRAN]},
-  VEN_west:   {n:'Venezuela ocidental (Coro, Maracaibo)', h:[[1493,'ind'],[1527,'castela'],[1528,'welser'],[1546,'vnesp'],...VENEZ]},
-  VEN_rest:   {n:'Venezuela oriental (Caracas, Cumaná)', h:[[1493,'ind'],[1521,'castela'],[1535,'vnesp'],...VENEZ]},
-  VEN_south:  {n:'Guayana venezuelana (Orinoco)', h:[[1493,'ind'],[1595,'vnesp'],...VENEZ]},
-  ECU_inca:   {n:'Serra e costa do Equador', h:[[1493,'inca'],[1533,'castela'],...QUITO]},
-  ECU_rest:   {n:'Amazônia equatoriana', h:[[1493,'ind'],...QUITO]},
-  PER_inca:   {n:'Costa e Andes peruanos', h:[[1493,'inca'],[1533,'castela'],...PERU]},
-  PER_rest:   {n:'Amazônia peruana', h:[[1493,'ind'],...PERU]},
-  BOL_inca:   {n:'Altiplano boliviano (Charcas)', h:[[1493,'inca'],[1533,'ind'],[1538,'castela'],...ALTOPERU]},
-  BOL_rest:   {n:'Terras baixas bolivianas', h:[[1493,'ind'],[1561,'vperu'],...ALTOPERU.slice(1)]},
-  CHL_north:  {n:'Arica e Tarapacá', h:[[1493,'inca'],[1533,'castela'],...PERU,[1880,'chi']]},
-  CHL_lit:    {n:'Litoral boliviano (Antofagasta)', h:[[1493,'inca'],[1533,'ind'],...ALTOPERU,[1879,'chi']]},
-  CHL_c1:     {n:'Norte Chico e Chile central', h:[[1493,'inca'],[1533,'ind'],...CHILE]},
-  CHL_c2:     {n:'Entre o Maule e o Bío-Bío', h:[[1493,'ind'],...CHILE]},
-  CHL_arauc:  {n:'Araucanía', h:[[1493,'ind'],[1550,'cgchile'],[1599,'mapuche'],[1883,'chi']]},
-  CHL_chiloe: {n:'Chiloé e Los Lagos', h:[[1493,'ind'],[1567,'cgchile'],[1826,'chi']]},
-  CHL_rest:   {n:'Patagônia chilena e Magalhães', h:[[1493,'ind'],[1843,'chi']]},
-  ARG_inca:   {n:'Noroeste argentino (Tucumán, Cuyo)', h:[[1493,'inca'],[1533,'ind'],...ARGEN]},
-  ARG_rest:   {n:'Litoral e centro da Argentina', h:[[1493,'ind'],...ARGEN]},
-  ARG_chaco:  {n:'Chaco argentino', h:[[1493,'ind'],[1884,'arg']]},
-  ARG_pampa:  {n:'Pampas do sul', h:[[1493,'ind'],[1879,'arg']]},
-  ARG_patag:  {n:'Patagônia argentina', h:[[1493,'ind'],[1881,'arg']]},
-  PRY:        {n:'Paraguai', h:[[1493,'ind'],[1537,'castela'],[1542,'vperu'],[1776,'vrdlp'],[1811,'pry']]},
-  URY:        {n:'Banda Oriental (Uruguai)', h:[[1493,'ind'],[1724,'vperu'],[1776,'vrdlp'],[1814,'pu'],[1817,'rup'],[1822,'imp'],[1828,'ury']]},
-  BRA_east:   {n:'Litoral do Brasil (leste de Tordesilhas)', h:[[1493,'ind'],[1500,'ptcol'],[1580,'uib'],[1640,'ptcol'],...BRASIL]},
-  BRA_ne:     {n:'Nordeste açucareiro (Pernambuco)', h:[[1493,'ind'],[1500,'ptcol'],[1580,'uib'],[1630,'nholanda'],[1654,'ptcol'],...BRASIL]},
-  BRA_rest:   {n:'Interior e Amazônia brasileira', h:[[1493,'ind'],[1542,'vperu'],[1720,'ptcol'],...BRASIL]},
-  BRA_south:  {n:'Sul do Brasil (Paraná, Rio Grande)', h:[[1493,'ind'],[1542,'vperu'],[1737,'ptcol'],...BRASIL]},
-  BRA_amapa:  {n:'Amapá (Cabo Norte)', h:[[1493,'ind'],[1542,'vperu'],[1637,'uib'],[1640,'ptcol'],[1815,'rup'],[1822,'imp'],[1841,'contestado'],[1900,'brrep']]},
-  BRA_acre:   {n:'Acre', h:[[1493,'ind'],...ALTOPERU,[1899,'acre'],[1900,'bol'],[1902,'acre'],[1903,'brrep']]},
-  GUY:        {n:'Guiana (Essequibo, Demerara, Berbice)', h:[[1493,'ind'],[1616,'nl'],[1796,'uk'],[1802,'nl'],[1803,'uk'],[1966,'guy']]},
-  SUR:        {n:'Suriname', h:[[1493,'ind'],[1650,'uk'],[1667,'nl'],[1799,'uk'],[1802,'nl'],[1804,'uk'],[1816,'nl'],[1975,'sur']]},
-  GUF:        {n:'Guiana Francesa (Caiena)', h:[[1493,'ind'],[1664,'fr'],[1809,'ptcol'],[1815,'rup'],[1817,'fr']]},
-  FLK:        {n:'Ilhas Malvinas / Falkland', h:[[1493,'desab'],[1764,'fr'],[1767,'vperu'],[1776,'vrdlp'],[1811,'desab'],[1820,'pu'],[1833,'uk']]}
+  COL_muisca: {n:'Altiplano de Bogotá', h:[[1492,'muisca'],[1537,'castela'],...NGRAN]},
+  COL_pasto:  {n:'Pasto (sul da Colômbia)', h:[[1492,'inca'],[1533,'ind'],[1537,'castela'],...NGRAN]},
+  COL_rest:   {n:'Colômbia', h:[[1492,'ind'],[1525,'castela'],...NGRAN]},
+  VEN_west:   {n:'Venezuela ocidental (Coro, Maracaibo)', h:[[1492,'ind'],[1527,'castela'],[1528,'welser'],[1546,'vnesp'],...VENEZ]},
+  VEN_rest:   {n:'Venezuela oriental (Caracas, Cumaná)', h:[[1492,'ind'],[1521,'castela'],[1535,'vnesp'],...VENEZ]},
+  VEN_south:  {n:'Guayana venezuelana (Orinoco)', h:[[1492,'ind'],[1595,'vnesp'],...VENEZ]},
+  ECU_inca:   {n:'Serra e costa do Equador', h:[[1492,'inca'],[1533,'castela'],...QUITO]},
+  ECU_rest:   {n:'Amazônia equatoriana', h:[[1492,'ind'],...QUITO]},
+  PER_inca:   {n:'Costa e Andes peruanos', h:[[1492,'inca'],[1533,'castela'],...PERU]},
+  PER_rest:   {n:'Amazônia peruana', h:[[1492,'ind'],...PERU]},
+  BOL_inca:   {n:'Altiplano boliviano (Charcas)', h:[[1492,'inca'],[1533,'ind'],[1538,'castela'],...ALTOPERU]},
+  BOL_rest:   {n:'Terras baixas bolivianas', h:[[1492,'ind'],[1561,'vperu'],...ALTOPERU.slice(1)]},
+  CHL_north:  {n:'Arica e Tarapacá', h:[[1492,'inca'],[1533,'castela'],...PERU,[1880,'chi']]},
+  CHL_lit:    {n:'Litoral boliviano (Antofagasta)', h:[[1492,'inca'],[1533,'ind'],...ALTOPERU,[1879,'chi']]},
+  CHL_c1:     {n:'Norte Chico e Chile central', h:[[1492,'inca'],[1533,'ind'],...CHILE]},
+  CHL_c2:     {n:'Entre o Maule e o Bío-Bío', h:[[1492,'ind'],...CHILE]},
+  CHL_arauc:  {n:'Araucanía', h:[[1492,'ind'],[1550,'cgchile'],[1599,'mapuche'],[1883,'chi']]},
+  CHL_chiloe: {n:'Chiloé e Los Lagos', h:[[1492,'ind'],[1567,'cgchile'],[1826,'chi']]},
+  CHL_rest:   {n:'Patagônia chilena e Magalhães', h:[[1492,'ind'],[1843,'chi']]},
+  ARG_inca:   {n:'Noroeste argentino (Tucumán, Cuyo)', h:[[1492,'inca'],[1533,'ind'],...ARGEN]},
+  ARG_rest:   {n:'Litoral e centro da Argentina', h:[[1492,'ind'],...ARGEN]},
+  ARG_chaco:  {n:'Chaco argentino', h:[[1492,'ind'],[1884,'arg']]},
+  ARG_pampa:  {n:'Pampas do sul', h:[[1492,'ind'],[1879,'arg']]},
+  ARG_patag:  {n:'Patagônia argentina', h:[[1492,'ind'],[1881,'arg']]},
+  PRY:        {n:'Paraguai', h:[[1492,'ind'],[1537,'castela'],[1542,'vperu'],[1776,'vrdlp'],[1811,'pry']]},
+  URY:        {n:'Banda Oriental (Uruguai)', h:[[1492,'ind'],[1724,'vperu'],[1776,'vrdlp'],[1814,'pu'],[1817,'rup'],[1822,'imp'],[1828,'ury']]},
+  BRA_east:   {n:'Litoral do Brasil (leste de Tordesilhas)', h:[[1492,'ind'],[1500,'ptcol'],[1580,'uib'],[1640,'ptcol'],...BRASIL]},
+  BRA_ne:     {n:'Nordeste açucareiro (Pernambuco)', h:[[1492,'ind'],[1500,'ptcol'],[1580,'uib'],[1630,'nholanda'],[1654,'ptcol'],...BRASIL]},
+  BRA_rest:   {n:'Interior e Amazônia brasileira', h:[[1492,'ind'],[1542,'vperu'],[1720,'ptcol'],...BRASIL]},
+  BRA_south:  {n:'Sul do Brasil (Paraná, Rio Grande)', h:[[1492,'ind'],[1542,'vperu'],[1737,'ptcol'],...BRASIL]},
+  BRA_amapa:  {n:'Amapá (Cabo Norte)', h:[[1492,'ind'],[1542,'vperu'],[1637,'uib'],[1640,'ptcol'],[1815,'rup'],[1822,'imp'],[1841,'contestado'],[1900,'brrep']]},
+  BRA_acre:   {n:'Acre', h:[[1492,'ind'],...ALTOPERU,[1899,'acre'],[1900,'bol'],[1902,'acre'],[1903,'brrep']]},
+  GUY:        {n:'Guiana (Essequibo, Demerara, Berbice)', h:[[1492,'ind'],[1616,'nl'],[1796,'uk'],[1802,'nl'],[1803,'uk'],[1966,'guy']]},
+  SUR:        {n:'Suriname', h:[[1492,'ind'],[1650,'uk'],[1667,'nl'],[1799,'uk'],[1802,'nl'],[1804,'uk'],[1816,'nl'],[1975,'sur']]},
+  GUF:        {n:'Guiana Francesa (Caiena)', h:[[1492,'ind'],[1664,'fr'],[1809,'ptcol'],[1815,'rup'],[1817,'fr']]},
+  FLK:        {n:'Ilhas Malvinas / Falkland', h:[[1492,'desab'],[1764,'fr'],[1767,'vperu'],[1776,'vrdlp'],[1811,'desab'],[1820,'pu'],[1833,'uk']]}
 };
 
 // Cidades: [nome, ano de fundação]
 const CITIES = [
-  ['Cusco',1493],['Quito',1493],['Lima',1535],['Bogotá',1538],['Assunção',1537],['Sucre',1538],
+  ['Cusco',1492],['Quito',1492],['Lima',1535],['Bogotá',1538],['Assunção',1537],['Sucre',1538],
   ['Santiago',1541],['Potosí',1545],['La Paz',1548],['Salvador',1549],['Rio de Janeiro',1565],['Caracas',1567],
   ['Buenos Aires',1580],['Recife',1537],['Caiena',1664],['Paramaribo',1667],['Montevidéu',1724],['Georgetown',1781],
   ['Stanley',1843],['Brasília',1960]
@@ -331,9 +331,10 @@ const CITIES = [
 
 // ===== Períodos e fatos =====
 const ERAS = [
- {s:1493,e:1499,t:'Às vésperas do contato',
+ {s:1492,e:1499,t:'Às vésperas do contato',
   d:'O Império Inca vive seu auge sob Huayna Cápac, estendendo-se do sul da atual Colômbia ao rio Maule, no Chile. No altiplano de Bogotá, a Confederação Muísca reúne cacicados em torno de Bacatá e Hunza. O resto do continente é habitado por centenas de povos (tupis, guaranis, aruaques, caribes, mapuches) sem um Estado único. Portugal e Castela já dividem o mundo no papel.',
-  ev:[[1493,'Huayna Cápac assume o trono inca (c. 1493) e leva a fronteira para o norte, em direção a Quito e Pasto.'],
+  ev:[[1492,'Cristóvão Colombo chega à América (12 de outubro), desembarcando em Guanahani, nas Bahamas, a serviço dos Reis Católicos.'],
+      [1493,'Huayna Cápac assume o trono inca (c. 1493) e leva a fronteira para o norte, em direção a Quito e Pasto.'],
       [1493,'Bula Inter caetera: o papa Alexandre VI divide as terras a descobrir entre Castela e Portugal.'],
       [1494,'Tratado de Tordesilhas: uma linha a 370 léguas a oeste de Cabo Verde separa as terras portuguesas (leste) das castelhanas (oeste).'],
       [1498,'Na terceira viagem, Colombo chega ao golfo de Paria, na Venezuela: primeiro europeu a pisar no continente.'],
@@ -516,7 +517,7 @@ const ERAS = [
 </script>
 <script>
 (function(){
-const Y0=1493, Y1=2026;
+const Y0=1492, Y1=2026;
 const ids=Object.keys(REG).filter(k=>GEO.atoms[k]);
 function ownerAt(h,y){let o=h[0][1];for(const [s,e] of h){if(s<=y)o=e;else break}return o}
 const OWN={}; // year -> array
@@ -594,7 +595,7 @@ function renderPanel(){
   let cy=null;for(let i=CHANGE_YEARS.length-1;i>=0;i--){if(CHANGE_YEARS[i]<=year){cy=CHANGE_YEARS[i];break}}
   const ul=$('changes');ul.innerHTML='';
   if(cy===null){$('chgHead').innerHTML='Situação inicial';
-    ul.innerHTML=`<li><span></span><p class="none">Em 1493 nenhum europeu havia pisado no continente. Avance o tempo para ver as primeiras mudanças.</p></li>`;}
+    ul.innerHTML=`<li><span></span><p class="none">Em 1492 Colombo chega ao Caribe, mas nenhum europeu havia pisado ainda na América do Sul. Avance o tempo para ver as primeiras mudanças.</p></li>`;}
   else{
     $('chgHead').innerHTML=cy===year?`Mudanças no mapa em ${cy}`:`Última mudança no mapa <span>${cy}</span>`;
     const grp={};OWN[cy].forEach((o,i)=>{const p=OWN[cy-1][i];if(o!==p){const key=p+'>'+o;(grp[key]=grp[key]||[]).push(REG[ids[i]].n)}});
@@ -668,7 +669,7 @@ function draw(){
   if(!qEl.value.trim()){resEl.hidden=true;qEl.setAttribute('aria-expanded','false');hits=[];return}
   hits=r.list||[];act=0;
   resEl.innerHTML=hits.length?hits.map((h,i)=>`<li role="option" id="res${i}" data-i="${i}"${i===0?' class="act" aria-selected="true"':''}><span class="y">${h.y}</span><span>${h.go?esc(h.t):mark(h.t,r.terms)}</span><small>${esc(h.k)}</small></li>`).join('')
-    :'<li class="empty">Nenhum resultado. Tente um ano entre 1493 e 2026 ou outra palavra.</li>';
+    :'<li class="empty">Nenhum resultado. Tente um ano entre 1492 e 2026 ou outra palavra.</li>';
   resEl.hidden=false;qEl.setAttribute('aria-expanded','true');
 }
 function setAct(i){if(!hits.length)return;act=(i+hits.length)%hits.length;
