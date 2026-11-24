@@ -79,6 +79,13 @@ input[type=range]{width:100%;margin:2px 0 0;accent-color:var(--accent);height:24
 @keyframes evflash{0%,40%{background:color-mix(in srgb,var(--accent) 30%,transparent)}100%{background:var(--chip)}}
 @media (max-width:900px){.search-hint{display:none}}
 
+/* Contador de visitas */
+.topright{display:flex;flex-direction:column;align-items:flex-end;gap:6px}
+.visits{display:inline-flex;align-items:center;gap:6px;font:500 12px var(--f-body);color:var(--muted);background:var(--panel);border:1px solid var(--line);border-radius:999px;padding:3px 10px 3px 8px}
+.visits svg{width:14px;height:14px}
+.visits b{font:600 12.5px var(--f-mono);color:var(--ink);font-variant-numeric:tabular-nums}
+@media (max-width:600px){.topright{align-items:flex-start}}
+
 /* Corpo */
 .main{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(320px,1fr);gap:14px;align-items:start}
 .mapcard{background:var(--sea);border:1px solid var(--line);border-radius:10px;position:relative;overflow:hidden}
@@ -142,7 +149,10 @@ h3.sub span{font:500 12px var(--f-mono);color:var(--muted)}
       <h1>Atlas Histórico da América do Sul</h1>
       <p>Arraste a régua do tempo para ver como impérios, reinos, colônias e repúblicas dividiram o continente entre 1492 e 2026.</p>
     </div>
-    <div class="yearbig" id="yearBig" aria-live="polite">1492</div>
+    <div class="topright">
+      <div class="yearbig" id="yearBig" aria-live="polite">1492</div>
+      <div class="visits" id="visits" hidden><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M1.5 10s3-6 8.5-6 8.5 6 8.5 6-3 6-8.5 6-8.5-6-8.5-6z"/><circle cx="10" cy="10" r="2.6"/></svg><b id="visitsN"></b> visitas</div>
+    </div>
   </header>
 
   <section class="timebar" aria-label="Linha do tempo">
@@ -208,7 +218,7 @@ h3.sub span{font:500 12px var(--f-mono);color:var(--muted)}
     </div>
   </div>
 
-  <p class="foot">Mapa construído sobre as fronteiras atuais (Natural Earth), divididas em 38 regiões históricas. Datas indicam o ano em que cada mudança passou a valer; em guerras longas, adotou-se o ano da ocupação efetiva ou do tratado. Clique em uma região para ver detalhes, ou em um fato para ir ao ano correspondente. Use as setas do teclado para avançar e voltar.</p>
+  <p class="foot">Mapa construído sobre as fronteiras atuais (Natural Earth), divididas em 36 regiões históricas. Datas indicam o ano em que cada mudança passou a valer; em guerras longas, adotou-se o ano da ocupação efetiva ou do tratado. Clique em uma região para ver detalhes, ou em um fato para ir ao ano correspondente. Use as setas do teclado para avançar e voltar.</p>
 </div>
 
 <script>
@@ -693,6 +703,23 @@ resEl.addEventListener('click',e=>{const li=e.target.closest('li[data-i]');if(li
 qClr.onclick=()=>{qEl.value='';draw();qEl.focus()};
 document.addEventListener('click',e=>{if(!e.target.closest('.search')){resEl.hidden=true;qEl.setAttribute('aria-expanded','false')}});
 document.addEventListener('keydown',e=>{if(e.key==='/'&&document.activeElement!==qEl&&!/INPUT|SELECT|TEXTAREA/.test(document.activeElement.tagName)){qEl.focus();e.preventDefault()}});
+// ---- Contador de visitas (Abacus, sem cadastro e sem cookies) ----
+(function(){
+  const box=document.getElementById('visits'),num=document.getElementById('visitsN');
+  const base='https://abacus.jasoncameron.dev/';
+  const key='fonefirmaa34-sudo-atlas/visitas';
+  let counted=false;try{counted=sessionStorage.getItem('atlas-visita')==='1'}catch(e){}
+  const live=location.hostname==='fonefirmaa34-sudo.github.io';
+  const url=base+((live&&!counted)?'hit/':'get/')+key;
+  const ctl=new AbortController();setTimeout(()=>ctl.abort(),8000);
+  fetch(url,{signal:ctl.signal,cache:'no-store'}).then(r=>r.ok?r.json():Promise.reject(r.status)).then(d=>{
+    if(typeof d.value!=='number')return;
+    num.textContent=d.value.toLocaleString('pt-BR');
+    box.title=d.value===1?'1 visita desde a criação do contador':d.value.toLocaleString('pt-BR')+' visitas desde a criação do contador';
+    box.hidden=false;
+    if(live&&!counted){try{sessionStorage.setItem('atlas-visita','1')}catch(e){}}
+  }).catch(()=>{});
+})();
 let start=Y0;try{const s=+localStorage.getItem('atlas-ano');if(s>=Y0&&s<=Y1)start=s}catch(e){}
 setYear(start);
 })();
